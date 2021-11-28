@@ -1,21 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import Rewards from './Rewards/Rewards';
+
+import getSupplyRates from './data/getSupplyRates';
+
+import { TokenRate } from './types';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 20,
   },
 });
+
+export default function App() {
+  const [supplyRates, setSupplyRates] = useState<TokenRate>({});
+
+  const loadSupplyRates = async () => {
+    try {
+      const supplyRates: TokenRate = await getSupplyRates();
+      setSupplyRates(supplyRates);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    loadSupplyRates();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      {supplyRates && <Rewards
+        supplyRates={supplyRates}
+      /> }
+    </View>
+  );
+}
