@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import Rewards from './Rewards/Rewards';
+import SupplyRateList from './SupplyRates/SupplyRateList'
+import Rewards from './Rewards/Rewards'
 
 import getSupplyRates from './data/getSupplyRates';
 
-import { TokenRate } from './types';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 20,
-  },
-});
+import { TokenRate } from './types'
 
 export default function App() {
   const [supplyRates, setSupplyRates] = useState<TokenRate>({});
-
+  
   const loadSupplyRates = async () => {
     try {
       const supplyRates: TokenRate = await getSupplyRates();
@@ -31,9 +24,26 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {supplyRates && <Rewards
+      {supplyRates && <SupplyRateList 
+        supplyRates={supplyRates}
+      />}
+      <View
+        style={{
+          borderBottomColor: '#E6E8FA',
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        }}
+      />
+      {supplyRates && <Rewards 
         supplyRates={supplyRates}
       /> }
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: 20,
+  },
+});
