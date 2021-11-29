@@ -36,6 +36,7 @@ export default function App() {
         />
         {supplyRates && <Rewards 
           supplyRates={supplyRates}
+          loadSupplyRates={loadSupplyRates}
         /> }
       </ScrollView>
     </SafeAreaView>

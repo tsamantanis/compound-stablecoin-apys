@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Token, SupplyRatesProps } from '../types';
+import { Token, TokenRate } from '../types';
 
 import AmountInput from './AmountInput'
 import FundAllocation from './FundAllocation';
 
+type LoadSupplyRatesProps = {
+  supplyRates: TokenRate;
+  loadSupplyRates: () => void;
+}
 
-const Rewards: React.FC<SupplyRatesProps> = ({
-  supplyRates
+const Rewards: React.FC<LoadSupplyRatesProps> = ({
+  supplyRates,
+  loadSupplyRates
 }) => {
   const [amount, setAmount] = useState<number>(0);
   const [earnings, setEarnings] = useState<number>(0);
@@ -75,7 +80,11 @@ const Rewards: React.FC<SupplyRatesProps> = ({
   };
 
   useEffect(() => {
-    calculateRewards();
+    const load = async () => {
+      await loadSupplyRates();
+      calculateRewards();
+    }
+    load();
   }, [amount, setTokens, tokens, supplyRates]);
 
   return (
