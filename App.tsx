@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView, View, SafeAreaView, StatusBar } from 'react-native';
 
 import SupplyRateList from './SupplyRates/SupplyRateList'
 import Rewards from './Rewards/Rewards'
@@ -23,27 +23,31 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {supplyRates && <SupplyRateList 
-        supplyRates={supplyRates}
-      />}
-      <View
-        style={{
-          borderBottomColor: '#E6E8FA',
-          borderBottomWidth: StyleSheet.hairlineWidth,
-        }}
-      />
-      {supplyRates && <Rewards 
-        supplyRates={supplyRates}
-      /> }
-    </View>
+    <SafeAreaView>
+      <ScrollView style={styles.container}>
+        {supplyRates && <SupplyRateList 
+          supplyRates={supplyRates}
+        />}
+        <View
+          style={{
+            borderBottomColor: '#E6E8FA',
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
+        {supplyRates && <Rewards 
+          supplyRates={supplyRates}
+        /> }
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    paddingTop: StatusBar.currentHeight,
+  },
+  container: {
     backgroundColor: '#fff',
-    paddingTop: 20,
   },
 });

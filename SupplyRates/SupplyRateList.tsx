@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { StyleSheet, ScrollView, View, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Dimensions } from 'react-native';
 
 import SupplyRateCard from './SupplyRateCard';
 
@@ -29,34 +29,49 @@ const SupplyRateList: React.FC<SupplyRatesProps> = ({
   setTimeout(() => {scrollViewRef.current && scrollViewRef.current.scrollTo({x: -30}) }, 1)
 
   return (
-    <ScrollView 
-      ref={scrollViewRef}
+    <View
       style={styles.container}
-      horizontal={true}
-      decelerationRate={0}
-      snapToInterval={width * 0.8}
-      snapToAlignment={"center"}
     >
-      {
-        supplyRates && Object.keys(supplyRates).map((key) => (
-          <SupplyRateCard
-            key={key + supplyRates[key]}
-            supplyRate={supplyRates[key]}
-            tokenName={key}
-            backgroundColor={tokenInfo[key].color}
-            img={tokenInfo[key].img}
-          />
-        ))
-      }
-    </ScrollView>
+      <Text style={styles.currentSupplyRates}>Current Supply Rates</Text>
+      <ScrollView 
+        ref={scrollViewRef}
+        style={styles.listContainer}
+        horizontal={true}
+        decelerationRate={0}
+        snapToInterval={width * 0.65}
+        snapToAlignment={"center"}
+      >
+        {
+          supplyRates && Object.keys(supplyRates).map((key) => (
+            <SupplyRateCard
+              key={key + supplyRates[key]}
+              supplyRate={supplyRates[key]}
+              tokenName={key}
+              backgroundColor={tokenInfo[key].color}
+              img={tokenInfo[key].img}
+            />
+          ))
+        }
+      </ScrollView>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    marginTop: 20,
     backgroundColor: '#FFFFFF',
-  }
+  },
+  listContainer: {
+    paddingVertical: 20,
+  },
+  currentSupplyRates: {
+    padding: 10,
+
+    textTransform: 'uppercase',
+    color: '#6D74AE',
+    fontWeight: 'bold',
+  },
 });
 
 export default SupplyRateList;
